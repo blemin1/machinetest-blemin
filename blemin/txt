@@ -1,0 +1,51 @@
+
+
+            <div class="todo-container">
+                <h2 class="text-center">Todo List</h2>
+                <div class="d-flex justify-content-end mb-3">
+                    <a href="{% url 'task_create' %}" class="btn btn-primary">Create Task</a>
+                </div>
+
+                <h3>Incomplete Tasks</h3>
+                <div class="list-group">
+                    {% for task in tasks %}
+                        {% if not task.completed %}
+                            <div class="list-group-item todo-item card">
+                                <div class="card-body">
+                                    <h5 class="task-title">{{ task.title }}</h5>
+                                    <p class="task-description">{{ task.description }}</p>
+                                    <div class="todo-actions">
+                                        <a href="{% url 'task_update' task.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                                        <a href="{% url 'task_delete' task.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                                        <form method="post" action="{% url 'task_complete' task.pk %}" style="display:inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-success btn-sm">Mark as Completed</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                <h3 class="mt-4">Completed Tasks</h3>
+                <div class="list-group">
+                    {% for task in tasks %}
+                        {% if task.completed %}
+                            <div class="list-group-item todo-item card">
+                                <div class="card-body completed-task">
+                                    <h5 class="task-title">{{ task.title }}</h5>
+                                    <p class="task-description">{{ task.description }}</p>
+                                    <div class="todo-actions">
+                                        <a href="{% url 'task_update' task.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                                        <a href="{% url 'task_delete' task.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+
+
